@@ -1,5 +1,3 @@
-# Docker container for running my solutions to Udacity UD810 - Intro to Computer Vision code.
-
 FROM nvidia/cudagl:9.0-devel-ubuntu16.04
 LABEL maintainers="Tanmay Bangalore <tanmaybangalore@gmail.com>"
 
@@ -22,16 +20,8 @@ RUN apt-get install -y python-dev python-pip python3-dev python3-pip &&\
     pip install numpy scipy matplotlib scikit-image scikit-learn ipython
 
 # Make a home directory so everything isn't just owned by root
-ARG UID=1000
-ARG GID=1000
 ARG UNAME="opencv"
-
-RUN mkdir -p /home/${UNAME} && \
-    echo "${UNAME}:x:${UID}:${GID}:${UNAME},,,:/home/${UNAME}:/bin/bash" >> /etc/passwd && \
-    echo "${UNAME}:x:${UID}:" >> /etc/group && \
-    echo "${UNAME} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/${UNAME} && \
-    chmod 0440 /etc/sudoers.d/${UNAME} && \
-    chown ${UID}:${GID} -R /home/${UNAME}
+RUN mkdir -p /home/${UNAME}
 
 # Fetch OpenCV
 RUN cd /home/${UNAME} && git clone --verbose https://github.com/opencv/opencv.git -b 3.4.1

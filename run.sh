@@ -1,8 +1,8 @@
 #! /usr/bin/env bash
 
 REPO="tanmay"
-IMAGE="cuda-opencv"
-TAG="ud810"
+IMAGE="opencv3-cudagl"
+TAG="latest"
 
 if [ ! "$(docker ps -q -f name=${TAG})" ]; then
     if [ "$(docker ps -aq -f status=exited -f name=${TAG})" ]; then
@@ -15,7 +15,6 @@ if [ ! "$(docker ps -q -f name=${TAG})" ]; then
            --name ${TAG} \
            -e DISPLAY=$DISPLAY \
            -v /tmp/.X11-unix:/tmp/.X11-unix \
-           -v $(pwd)/../../IntroToComputerVision:/home/$(id -un)/IntroToComputerVision \
            ${REPO}/${IMAGE}:${TAG} \
            /bin/bash
 fi
