@@ -11,11 +11,14 @@ env:
     - secure: DczYvJuhbYsFvLxlkxcyusw9ZFynE433BkpebSJbY/xlfgiwxWrTSX+8w45lwENUtrUgYSt9uaoghAbdmOLLonFreYbmyGHoHsB7n7fOAxGHfb7N8ayjlQssKYhRtNWR9w6eIG4eZGVcN+mDwZljBZ7tjdGucm0J9pfbSSlX+0LUbCVJIcOL3kN6uPaYV4914k6eJUnU2gW92B0BEuPfYou3k0nxNkiAwSRqBKM9vP6hWuIqhrOQt6gecxl/ZznuPfaIDNw91yvX+SfFVqdeeziMCQRxUAY7on06EeuLNLruHqho1OsU8mjfL5Duy29ui1T1Oc9vYY62rBDzE2fqFyGW1cODc/8h35LlCiNpJ0FLHMu2HvRoskQKU7ekhWsss8mxrHA4BY2pp5YSf3Xnfh/hMqZWhiYol/XdQrGKGuXnPqrzNsAqtjo1boavNQwQYBhOG+gevALlkgakjc+TcltLfxRNTeQMwtW6MqjzYdJlii2uSkZYxs1q+6BKCwpyqX+VRqsYz7lk/0GAldNNR45j7g0r4qNY5PV7TTYg+sO1P1nwtXsrZmjW6/DiWDS66cI9F/+VnwfdflCmfQ+CAmQw6C8jrTVMjc71P84Kw1hxiHVaj06NLoO9rEY+NknCgv8sps3lnuXiFk23O8M6p2y+LV4biihEBOVoAT+/bvE= # DOCKER_PASS
     - COMMIT=${TRAVIS_COMMIT::8}
 
-after_success:
-  - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
-  - export REPO=tanmaniac/opencv3-cudagl
-  - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
-  - docker build --tag $REPO:$COMMIT .
-  - docker tag $REPO:$COMMIT $REPO:$TAG
-  - docker tag $REPO:$COMMIT $REPO:travis-$TRAVIS_BUILD_NUMBER
-  - docker push $REPO
+jobs:
+  include:
+    - stage: build docker image
+      script:
+        - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+        - export REPO=opencv3-cudagl
+        - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
+        - docker build --tag ${DOCKER_USER}/${REPO}:${COMMIT} .
+        - docker tag $REPO:$COMMIT $REPO:$TAG
+        - docker tag $REPO:$COMMIT $REPO:travis-$TRAVIS_BUILD_NUMBER
+        - docker push $REPO
