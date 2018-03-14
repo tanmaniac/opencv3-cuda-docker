@@ -1,6 +1,6 @@
 #! /usr/bin/env bash
 
-REPO="tanmay"
+REPO="tanmaniac"
 IMAGE="opencv3-cudagl"
 TAG="latest"
 

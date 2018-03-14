@@ -19,14 +19,10 @@ RUN apt-get install -y python-dev python-pip python3-dev python3-pip &&\
     pip3 install -U pip numpy &&\
     pip install numpy scipy matplotlib scikit-image scikit-learn ipython
 
-# Make a home directory so everything isn't just owned by root
-ARG UNAME="opencv"
-RUN mkdir -p /home/${UNAME}
-
 # Fetch OpenCV
-RUN cd /home/${UNAME} && git clone --verbose https://github.com/opencv/opencv.git -b 3.4.1
+RUN cd /opt && git clone --verbose https://github.com/opencv/opencv.git -b 3.4.1
 
-RUN cd /home/${UNAME}/opencv && mkdir release && cd release && \
+RUN cd /opt/opencv && mkdir release && cd release && \
     cmake -G "Unix Makefiles" -DENABLE_PRECOMPILED_HEADERS=OFF -DCMAKE_CXX_COMPILER=/usr/bin/g++ \
     CMAKE_C_COMPILER=/usr/bin/gcc -DCMAKE_BUILD_TYPE=RELEASE -DCMAKE_INSTALL_PREFIX=/usr/local \
     -DWITH_TBB=ON -DBUILD_NEW_PYTHON_SUPPORT=ON -DWITH_V4L=ON -DINSTALL_C_EXAMPLES=ON \
@@ -35,6 +31,3 @@ RUN cd /home/${UNAME}/opencv && mkdir release && cd release && \
     make -j"$(nproc)"  && \
     make install && \
     ldconfig
-
-USER ${UNAME}
-ENV HOME /home/${UNAME}
