@@ -30,4 +30,5 @@ RUN cd /opt/opencv && mkdir release && cd release && \
     -DWITH_CUDA=ON .. &&\
     make -j"$(nproc)"  && \
     make install && \
-    ldconfig
+    ldconfig &&\
+    cd /opt/opencv/release && make clean
