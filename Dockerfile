@@ -1,4 +1,4 @@
-FROM nvidia/cudagl:9.0-devel-ubuntu16.04
+FROM nvidia/cudagl:9.1-devel-ubuntu16.04
 LABEL maintainers="Tanmay Bangalore <tanmaybangalore@gmail.com>"
 
 RUN apt-get update && apt-get remove -y x264 libx264-dev
