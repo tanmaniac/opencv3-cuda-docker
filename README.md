@@ -1,5 +1,5 @@
 # opencv3-cuda-docker
-Docker container with CUDA 9.1, OpenGL, and OpenCV 3.
+Docker container with CUDA 9.0, OpenGL, and OpenCV 3.
 
 ## Building
 - Install Docker-CE as described for your distribution on the [Docker docs](https://docs.docker.com/install/).
